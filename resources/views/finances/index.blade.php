@@ -8,6 +8,9 @@
 <body>
     <h1>Finance Records</h1>
 
+    <!-- link to monthly report -->
+    <a href="{{ route('monthly.report') }}" style="margin-right: 20px;">View Monthly Report</a>
+    
     <!-- link to add a new finance record -->
     <a href="{{ route('finances.create') }}">Add New Finance Record</a>
     

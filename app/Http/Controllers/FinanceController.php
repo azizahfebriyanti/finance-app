@@ -42,6 +42,15 @@ class FinanceController extends Controller
     }
 
     /**
+     * Display the specified finance record.
+     */
+    public function show($id)
+    {
+        $finance = Finance::findOrFail($id); // fetches the specific record by ID
+        return view('finances.show', compact('finance'));
+    }
+
+    /**
      * Show the form for editing a finance record.
      */
     public function edit($id)
@@ -82,11 +91,25 @@ class FinanceController extends Controller
     /**
      * Display the monthly report.
      */
-    public function monthlyReport()
-    {
-        $incomes = Finance::where('type', 'pemasukan')->sum('amount');
-        $expenses = Finance::where('type', 'pengeluaran')->sum('amount');
+    public function monthlyReport(Request $request)
+{
+    // get the selected month and year, default to the current month and year if not set
+    $month = $request->input('month', date('m'));
+    $year = $request->input('year', date('Y'));
 
-        return view('finances.report', compact('incomes', 'expenses'));
-    }
+    // filter income and expense records by the selected month and year
+    $totalIncome = Finance::where('type', 'pemasukan')
+        ->whereYear('date', $year)
+        ->whereMonth('date', $month)
+        ->sum('amount');
+
+    $totalExpense = Finance::where('type', 'pengeluaran')
+        ->whereYear('date', $year)
+        ->whereMonth('date', $month)
+        ->sum('amount');
+
+    // pass data to the view, along with the selected month and year
+    return view('finances.report', compact('totalIncome', 'totalExpense'));
+}
+
 }
