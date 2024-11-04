@@ -9,4 +9,4 @@ Route::get('/', function () {
 
 Route::resource('finances', \App\Http\Controllers\FinanceController::class);
 Route::get('finances/report', [\App\Http\Controllers\FinanceController::class, 'monthlyReport'])->name('finances.report');
-Route::get('/finances', [FinanceController::class, 'index']);
+Route::get('/finances', [FinanceController::class, 'index'])->name('finances.index');
